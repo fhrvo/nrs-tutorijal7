@@ -1,0 +1,29 @@
+version: '2.2'
+services:
+    reverseproxy:
+        image: reverseproxy
+        ports: 
+            - 8005:8005
+        restart: always
+
+    nginx:
+        depends_on: 
+            - reverseproxy
+        image: nginx:alpine
+        restart: always
+
+    node:
+        depends_on: 
+            - reverseproxy
+        image: fhrvo1
+        ports: 
+            - 3000:3000
+        restart: always
+
+    bulletin:
+        depends_on: 
+            - reverseproxy
+        image: bulletin/app
+        ports: 
+            - 8080:8080
+        restart: always
